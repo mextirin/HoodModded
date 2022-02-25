@@ -1,0 +1,379 @@
+--[[
+   ___             _         __    ______  ______ 
+  / _ _______    (_)__ ____/ /_  / __/  |/  / _  /
+   ___/ __/ _   / / -_) __/ __/ _ / /|_/ / ___/
+/_/  /_/  ___/_/ /__/__/__/ /___/_/  /_/_/    
+             |___/                                                               
+ --]]
+-- ProjectSMPⒸ, Copyrighted Item, Changing this item will let us taking action on you.
+-- Leak = PRO
+-- wyd here????
+-- psu deobfuscator be like 
+-- discord.gg/vYdJY6ggsx (dm us if u leak it)
+-- hi astolfo
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/mextirin/Kavo-UI-Library/main/kavo%20ui%20lib"))()
+local Window = Library.CreateLib("ProjectShitMyPants (Hood Modded) | (5602055394)", "Serpent")
+
+local Tab = Window:NewTab("CREDITS")
+local Section = Tab:NewSection("CREDITS")
+local oldList = {
+  "Updates:",
+  "[+] AimLock",
+  "[+] Speed",
+  "[+] NoWaist",
+  "[+] Fly",
+  "[+] TP's"
+}
+local newList = {
+  "PSMP ON TOP",
+  "Created by Empire#4946"
+}
+local dropdown = Section:NewDropdown("Credits and Updates","Yes", oldList, function()
+
+end)
+Section:NewButton("Goto Credits", "Refreshes Dropdown", function()
+  dropdown:Refresh(newList)
+end)
+Section:NewButton("Goto Updates", "Refreshes Dropdown", function()
+  dropdown:Refresh(oldList)
+end)
+
+local Tab = Window:NewTab("Main")
+local Section = Tab:NewSection("+--- Main ---+")
+Section:NewButton("AimLock (Customizable)", "PSMP AimLock On Top", function()
+   loadstring(game:HttpGet("https://pastebin.com/raw/Dj9yPvG9"))()
+end)
+Section:NewButton("Silent Aim (X)", "Change the FOV", function()
+_G.Prediction =  (  .10  )
+
+_G.FOV =  (  200  )
+
+_G.AimKey =  (  "x"  )
+
+
+--[[
+	Do not edit anything under this.
+]]
+
+local SilentAim = true
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Players = game:GetService("Players")
+local Mouse = LocalPlayer:GetMouse()
+local Camera = game:GetService("Workspace").CurrentCamera
+hookmetamethod = hookmetamethod
+Drawing = Drawing
+
+local FOV_CIRCLE = Drawing.new("Circle")
+FOV_CIRCLE.Visible = true
+FOV_CIRCLE.Filled = false
+FOV_CIRCLE.Thickness = 1
+FOV_CIRCLE.Transparency = 1
+FOV_CIRCLE.Color = Color3.new(0, 1, 0)
+FOV_CIRCLE.Radius = _G.FOV
+FOV_CIRCLE.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+
+Options = {
+	Torso = "HumanoidRootPart";
+	Head = "Head";
+}
+
+local function MoveFovCircle()
+	pcall(function()
+		local DoIt = true
+		spawn(function()
+			while DoIt do task.wait()
+				FOV_CIRCLE.Position = Vector2.new(Mouse.X, (Mouse.Y + 36))
+			end
+		end)
+	end)
+end coroutine.wrap(MoveFovCircle)()
+
+Mouse.KeyDown:Connect(function(KeyPressed)
+	if KeyPressed == (_G.AimKey:lower()) then
+		if SilentAim == false then
+			FOV_CIRCLE.Color = Color3.new(0, 1, 0)
+			SilentAim = true
+		elseif SilentAim == true then
+			FOV_CIRCLE.Color = Color3.new(1, 0, 0)
+			SilentAim = false
+		end
+	end
+end)
+
+local oldIndex = nil 
+oldIndex = hookmetamethod(game, "__index", function(self, Index)
+	if self == Mouse and (Index == "Hit") then 
+		local Distance = 9e9
+		local Targete = nil
+		if SilentAim then
+			
+			for _, v in pairs(Players:GetPlayers()) do 
+				if v ~= LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character:FindFirstChild("Humanoid").Health > 0 then
+					local Enemy = v.Character	
+					local CastingFrom = CFrame.new(Camera.CFrame.Position, Enemy[Options.Torso].CFrame.Position) * CFrame.new(0, 0, -4)
+					local RayCast = Ray.new(CastingFrom.Position, CastingFrom.LookVector * 9000)
+					local World, ToSpace = workspace:FindPartOnRayWithIgnoreList(RayCast, {LocalPlayer.Character:FindFirstChild("Head")})
+					local RootWorld = (Enemy[Options.Torso].CFrame.Position - ToSpace).magnitude
+					if RootWorld < 4 then
+						local RootPartPosition, Visible = Camera:WorldToScreenPoint(Enemy[Options.Torso].Position)
+						if Visible then
+							local Real_Magnitude = (Vector2.new(Mouse.X, Mouse.Y) - Vector2.new(RootPartPosition.X, RootPartPosition.Y)).Magnitude
+							if Real_Magnitude < Distance and Real_Magnitude < FOV_CIRCLE.Radius then
+								Distance = Real_Magnitude
+								Targete = Enemy
+							end
+						end
+					end
+				end
+			end
+		end
+		
+		if Targete ~= nil and Targete[Options.Torso] and Targete:FindFirstChild("Humanoid").Health > 0 then
+			if SilentAim then
+				local ShootThis = Targete[Options.Torso] -- or Options.Head
+				local Predicted_Position = ShootThis.CFrame + (ShootThis.Velocity * _G.Prediction + Vector3.new(0,-1,0)) --  (-1) = Less blatant
+				return ((Index == "Hit" and Predicted_Position))
+			end
+		end
+		
+	end
+	return oldIndex(self, Index)
+end)
+end)
+Section:NewButton("Anti Stomp", "Anti-Stomp. just anti stomp.", function()
+       game.Players.LocalPlayer.Character.UpperTorso.WaistRigAttachment:Destroy()
+    game.Players.LocalPlayer.Character.UpperTorso.NeckRigAttachment:Destroy()
+    game.Players.LocalPlayer.Character.UpperTorso.LeftShoulderRigAttachment:Destroy()
+    game.Players.LocalPlayer.Character.UpperTorso.RightShoulderRigAttachment:Destroy()
+    game.Players.LocalPlayer.Character.UpperTorso.BodyFrontAttachment:Destroy()
+    game.Players.LocalPlayer.Character.UpperTorso.BodyBackAttachment:Destroy()
+    game.Players.LocalPlayer.Character.UpperTorso.LeftCollarAttachment:Destroy()
+    game.Players.LocalPlayer.Character.UpperTorso.RightCollarAttachment:Destroy()
+    game.Players.LocalPlayer.Character.UpperTorso.NeckAttachment:Destroy()
+    game.Players.LocalPlayer.Character.UpperTorso.Waist:Destroy()
+    game.Players.LocalPlayer.Character.Head.NeckRigAttachment:Destroy()
+    game.Players.LocalPlayer.Character.Head.FaceFrontAttachment:Destroy()
+    game.Players.LocalPlayer.Character.Head.HatAttachment:Destroy()
+    game.Players.LocalPlayer.Character.Head.HairAttachment:Destroy()
+    game.Players.LocalPlayer.Character.Head.FaceCenterAttachment:Destroy()
+    game.Players.LocalPlayer.Character.Head.Neck:Destroy()
+    game.Players.LocalPlayer.Character.Head.Head:Destroy()
+    game.Players.LocalPlayer.Character.Head.OriginalSize:Destroy()
+end)
+
+
+local Tab = Window:NewTab("Player")
+local Section = Tab:NewSection("+--- Player ---+")
+Section:NewSlider("Speed (C)", "Change Speed Value by Sliding the Slider.", 1000, 160, function(s)
+   plr = game:GetService('Players').LocalPlayer
+
+down = true
+
+function onButton1Down(mouse)
+
+    down = true
+
+    while down do
+
+        if not down then break end
+
+        local char = plr.Character
+
+        char.HumanoidRootPart.Velocity = char.HumanoidRootPart.CFrame.lookVector * s
+
+        wait()
+
+    end
+
+end
+
+function onButton1Up(mouse)
+
+    down = false
+
+end
+
+function onSelected(mouse)
+
+    mouse.KeyDown:connect(function(c) if c:lower()=="c"then onButton1Down(mouse)end end)
+
+    mouse.KeyUp:connect(function(c) if c:lower()=="c"then onButton1Up(mouse)end end)
+
+end
+
+onSelected(game.Players.LocalPlayer:GetMouse())
+end)
+Section:NewButton("Fly", "Opens up the Fly GUI.", function()
+   loadstring(game:HttpGet("https://pastebin.com/raw/h02im8mB", true))()
+end)
+Section:NewButton("Infinite Jump", "Jump Infinitely!", function()
+local Player = game:GetService'Players'.LocalPlayer;
+local UIS = game:GetService'UserInputService';
+ 
+_G.JumpHeight = 50;
+ 
+function Action(Object, Function) if Object ~= nil then Function(Object); end end
+ 
+UIS.InputBegan:connect(function(UserInput)
+    if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.Space then
+        Action(Player.Character.Humanoid, function(self)
+            if self:GetState() == Enum.HumanoidStateType.Jumping or self:GetState() == Enum.HumanoidStateType.Freefall then
+                Action(self.Parent.HumanoidRootPart, function(self)
+                    self.Velocity = Vector3.new(0, _G.JumpHeight, 0);
+                end)
+            end
+        end)
+    end
+end)
+
+local function TKDWQ_fake_script() -- I LOVE COMBO NOHOMO
+local script = Instance.new('LocalScript', INFJUMP)
+
+function zigzag(X) return math.acos(math.cos(X*math.pi))/math.pi end
+
+counter = 0
+
+while wait(0.1)do
+script.Parent.BackgroundColor3 = Color3.fromHSV(zigzag(counter),1,1)
+ 
+counter = counter + 0.01
+end
+end
+coroutine.wrap(TKDWQ_fake_script)() -- why not fake script :Troll: 
+
+end)
+
+local Tab = Window:NewTab("Other")
+local Section = Tab:NewSection("+--- Other ---+")
+Section:NewButton("NoWaist FE", "First Script to Have it.", function()
+   loadstring(game:HttpGet("https://pastebin.com/raw/yWUrfenK"))()
+end)
+Section:NewColorPicker("Bullet Color", "Changes your Bullet Color! (CLIENTSIDED)", Color3.fromRGB(255,255,255), function(color)
+    game.Players.LocalPlayer.Information.RayColor.Value = color -- color = value
+end)
+local Section = Tab:NewSection("Tag Changer")
+
+Section:NewButton("Valentine Tag", "Changes your Normal Tag to Valentine Tag.", function()
+    game.Players.LocalPlayer.Information.Tag.Value = "Valentine"
+end)
+Section:NewButton("Goth Tag", "Changes your Normal Tag to Goth Tag.", function()
+    game.Players.LocalPlayer.Information.Tag.Value = "Goth"
+end)
+Section:NewButton("Menacing Tag", "Changes your Normal Tag to the jojo one.", function()
+   game.Players.LocalPlayer.Information.Tag.Value = "Menacing"
+end)
+Section:NewButton("Wobble Tag", "Changes your Normal Tag to the Wobble one.", function()
+   game.Players.LocalPlayer.Information.Tag.Value = "Wobble"
+end)
+Section:NewButton("Glitch Tag", "Changes your Normal Tag to the Glitch one.", function()
+   game.Players.LocalPlayer.Information.Tag.Value = "Glitch"
+end)
+Section:NewButton("Diamond Tag", "Changes your Normal Tag to the Diamond one.", function()
+   game.Players.LocalPlayer.Information.Tag.Value = "Diamond"
+end)
+Section:NewButton("Ruby Tag", "Changes your Normal Tag to the Ruby one.", function()
+   game.Players.LocalPlayer.Information.Tag.Value = "Ruby"
+end)
+Section:NewButton("Rock Tag", "Changes your Normal Tag to the Rock one.", function()
+   game.Players.LocalPlayer.Information.Tag.Value = "Rock"
+end)
+Section:NewButton("Hallo Tag", "Changes your Normal Tag to the Hallo one.", function()
+   game.Players.LocalPlayer.Information.Tag.Value = "Hallo"
+end)
+Section:NewButton("Candy Tag", "Changes your Normal Tag to the Candy one.", function()
+   game.Players.LocalPlayer.Information.Tag.Value = "Candy"
+end)
+Section:NewButton("Default Tag", "Changes your Normal Tag to the Default one.", function()
+   game.Players.LocalPlayer.Information.Tag.Value = "Normal"
+end)
+
+local Section = Tab:NewSection("Kill Streak Changer (CLIENTSIDED)")
+Section:NewTextBox("Streak Number", "THIS IS CLIENT SIDED", function(txt)
+    game.Players.LocalPlayer.Information.Streaks.Value = txt
+end)
+
+local Tab = Window:NewTab("Teleports")
+local Section = Tab:NewSection("If you sat on something dont jump out")
+local Section = Tab:NewSection("Wait 10 seconds then jump.")
+local Section = Tab:NewSection("+--- Favorites ---+")
+
+Section:NewButton("Revolver", "Buys you Rev", function()
+local New_CFrame = CFrame.new(-2569.18, 401, -778.763)
+
+local ts = game:GetService('TweenService')
+local char = game.Players.LocalPlayer.Character
+
+local part = char.HumanoidRootPart
+local ti = TweenInfo.new(4, Enum.EasingStyle.Linear)
+local tp = {CFrame = New_CFrame}
+ts:Create(part, ti, tp):Play()
+wait(4)
+fireclickdetector(game.Workspace.Shop.Guns["[Revolver] - $1600"].ClickDetector)
+end)
+Section:NewButton("Double Barrel", "Buys you DB", function()
+   local New_CFrame = CFrame.new(-2963.13, 400.497, -915.956)
+
+local ts = game:GetService('TweenService')
+local char = game.Players.LocalPlayer.Character
+
+local part = char.HumanoidRootPart
+local ti = TweenInfo.new(4, Enum.EasingStyle.Linear)
+local tp = {CFrame = New_CFrame}
+ts:Create(part, ti, tp):Play()
+wait(4)
+fireclickdetector(game.Workspace.Shop.Guns["[Double Barrel SG] - $800"].ClickDetector)
+end)
+
+local Section = Tab:NewSection("+--- Armor ---+")
+
+Section:NewButton("Heavy-Medium Armor", "Buys you Heavy Medium Armor.", function()
+local New_CFrame = CFrame.new(-2860.01, 352.476, -82.1079)
+
+local ts = game:GetService('TweenService')
+local char = game.Players.LocalPlayer.Character
+
+local part = char.HumanoidRootPart
+local ti = TweenInfo.new(4, Enum.EasingStyle.Linear)
+local tp = {CFrame = New_CFrame}
+ts:Create(part, ti, tp):Play()
+wait(4)
+fireclickdetector(game.Workspace.Shop.Armor["[High-Medium Armor] - $550"].ClickDetector)
+end)
+
+Section:NewButton("Medium Armor (House)", "Teleports you to Medium Armor House", function()
+local New_CFrame = CFrame.new(-2535.66, 388.09, -1456.39)
+
+local ts = game:GetService('TweenService')
+local char = game.Players.LocalPlayer.Character
+
+local part = char.HumanoidRootPart
+local ti = TweenInfo.new(4, Enum.EasingStyle.Linear)
+local tp = {CFrame = New_CFrame}
+ts:Create(part, ti, tp):Play()
+wait(4)
+fireclickdetector(game.Workspace.Shop.Guns["[Medium Armor] - $550"].ClickDetector)
+end)
+
+Section:NewButton("Medium Armor (Police)", "Teleports you to Medium Armor Police", function()
+local New_CFrame = CFrame.new(-2183.07, 399.54, -745.089)
+
+local ts = game:GetService('TweenService')
+local char = game.Players.LocalPlayer.Character
+
+local part = char.HumanoidRootPart
+local ti = TweenInfo.new(4, Enum.EasingStyle.Linear)
+local tp = {CFrame = New_CFrame}
+ts:Create(part, ti, tp):Play()
+wait(4)
+fireclickdetector(game.Workspace.Shop.Guns["[Medium Armor] - $550"].ClickDetector)
+end)
+
+local Tab = Window:NewTab("Settings")
+local Section = Tab:NewSection("+--- Modules ---+")
+Section:NewKeybind("OpenUI", "Keybind to Open UI", Enum.KeyCode.V, function()
+	Library:ToggleUI()
+end)
+Section:NewDropdown("Help", "", {"discord.gg/vYdJY6ggsx", "Join Discord For Support", "PSMP on TOP"}, function(currentOption)
+    print(currentOption)
+end)
